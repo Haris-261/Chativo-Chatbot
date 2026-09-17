@@ -1,0 +1,28 @@
+{
+  "name": "@chativo-gemini/backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "seed": "node scripts/seed-knowledge.js",
+    "test": "node --test tests/*.test.js",
+    "test:accuracy": "node scripts/accuracy-check.js",
+    "test:smoke": "node scripts/smoke-test.js",
+    "test:gemini": "node scripts/gemini-connection-check.js",
+    "sync:website": "node scripts/sync-website-knowledge.js",
+    "generate:questions-pdf": "node scripts/generate-question-pdf.js"
+  },
+  "dependencies": {
+    "@google/genai": "^2.23.0",
+    "cheerio": "^1.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "mongoose": "^8.12.1",
+    "pdfkit": "^0.17.2"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "chativo-gemini-assistant",
+  "version": "3.0.0",
+  "private": true,
+  "description": "A source-grounded MERN chatbot for Chativo",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n API,WEB -c green,cyan \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:frontend": "npm run dev --workspace frontend",
+    "dev:backend": "npm run dev --workspace backend",
+    "build": "npm run build --workspace frontend",
+    "start": "npm run start --workspace backend",
+    "seed": "npm run seed --workspace backend",
+    "test": "npm run test --workspace backend",
+    "test:accuracy": "npm run test:accuracy --workspace backend",
+    "test:smoke": "npm run test:smoke --workspace backend",
+    "test:gemini": "npm run test:gemini --workspace backend",
+    "sync:website": "npm run sync:website --workspace backend",
+    "generate:questions-pdf": "npm run generate:questions-pdf --workspace backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
