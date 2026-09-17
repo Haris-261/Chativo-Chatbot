@@ -2,6 +2,27 @@ import { useEffect, useRef, useState } from "react";
 
 const SITE = "https://chativo.mbstack.net";
 
+async function readApiResponse(response) {
+  const responseText = await response.text();
+  let payload;
+
+  try {
+    payload = JSON.parse(responseText);
+  } catch {
+    throw new Error(`The chat API returned HTTP ${response.status} instead of JSON.`);
+  }
+
+  if (!response.ok) {
+    throw new Error(payload.error || `The chat API returned HTTP ${response.status}.`);
+  }
+
+  if (!payload?.answer || !Array.isArray(payload.answer.blocks)) {
+    throw new Error("The chat API returned an incomplete response.");
+  }
+
+  return payload;
+}
+
 const suggestions = [
   { label: "Models", text: "Which five AI models are available?" },
   { label: "Guest access", text: "Can I try Chativo before paying?" },
@@ -97,8 +118,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text, lastIntent })
       });
-      const payload = await response.json();
-      if (!response.ok) throw new Error(payload.error || "The assistant is unavailable.");
+      const payload = await readApiResponse(response);
 
       setMessages(current => [...current, {
         role: "assistant",
@@ -114,7 +134,10 @@ function App() {
       setMessages(current => [...current, {
         role: "assistant",
         type: "refusal",
-        blocks: [{ type: "paragraph", text: `${error.message} Please confirm that the Express API and MongoDB are running.` }],
+        blocks: [{
+          type: "paragraph",
+          text: `${error.message} Please try again or check the deployed API route.`
+        }],
         sources: [],
         time: timeLabel()
       }]);
